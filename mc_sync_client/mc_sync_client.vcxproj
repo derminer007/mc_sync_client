@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="clientConnection.cpp" />
     <ClCompile Include="mc_sync_client.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="clientConnection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

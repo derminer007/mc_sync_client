@@ -18,5 +18,13 @@
     <ClCompile Include="mc_sync_client.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="clientConnection.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="clientConnection.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
