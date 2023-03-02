@@ -52,7 +52,7 @@ public:
 	int recvBuffer(char* buffer, int buffSize, int chunkSize = 4*1024);
 	int sendFile(const char* filename, int chunkSize = 64*1024);
 	int recvFile(const char* filename, int chunkSize = 64*1024);
-	long getFileSize(const char* filename);
+	int64_t getFileSize(const char* filename);
 	/*string getFileHash();*/
 };
 

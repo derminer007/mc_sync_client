@@ -39,7 +39,6 @@ int main() {
     try
     {
         clientConnection c1 = clientConnection(ip, PORT);
-        //c1.sendFile("nachricht.txt");
         int l = c1.sendBuffer("FFFFF", 5);
         printf("END %d\n", l);
         c1.sendFile("max.txt");

@@ -1,5 +1,7 @@
 #include "clientConnection.h"
 
+#include <fstream>
+
 void err_print(const char* nachricht) {
     fprintf(stderr, "%s\n", nachricht);
 }
@@ -92,7 +94,7 @@ int clientConnection::recvBuffer(char* buffer, int buffSize, int chunkSize) thro
     }
     return i;
 }
-long clientConnection::getFileSize(const char* filename) throw(fileIOException) {
+int64_t clientConnection::getFileSize(const char* filename) throw(fileIOException) {
     printf("Overflow: %d\n", errno);
     FILE* file = fopen(filename, "rb");
     if (file == NULL) {
@@ -121,7 +123,7 @@ long clientConnection::getFileSize(const char* filename) throw(fileIOException) 
 }
 int clientConnection::sendFile(const char* filename, int chunkSize) throw(networkIOException, fileIOException) {
     // Dateigröße schicken:
-    long fileSize = getFileSize(filename);
+    int64_t fileSize = getFileSize(filename);
     if (fileSize < 0) {
         if (fileSize == -2) {
             std::stringstream ss(16);
@@ -173,5 +175,45 @@ int clientConnection::sendFile(const char* filename, int chunkSize) throw(networ
     }
 }
 int clientConnection::recvFile(const char* filename, int chunkSize) {
-    return 0;
+    std::ofstream file(filename, std::ofstream::binary);
+    if (file.fail())
+    {
+        throw fileIOException("Failed to open file for receive");
+	    return -1;
+    }
+
+    /*FILE* file = fopen(filename, "rb");
+    if (file == NULL)
+    {
+        throw fileIOException("Failed to open File for receive");
+    }*/
+
+    int64_t fileSize;
+    if (recvBuffer(reinterpret_cast<char*>(&fileSize), sizeof(fileSize)) != sizeof(fileSize)) {
+        throw networkIOException("Failed to receive file size");
+        return -2;
+    }
+
+    char* buffer = new char[chunkSize];
+    bool errored = false;
+    int64_t i = fileSize;
+    while (i != 0) {        // Datei senden
+        const int r = recvBuffer(buffer, (int)__min(i, (int64_t)chunkSize));
+        if ((r < 0) || !file.write(buffer, r)) { errored = true; break; }
+        i -= r;
+    }
+    delete[] buffer;
+
+    file.close();
+
+    //return errored ? -3 : fileSize;
+
+    if (errored)
+    {
+        throw networkIOException("failed to receive file");
+    }
+    else
+    {
+        return fileSize;
+    }
 }
