@@ -4,8 +4,11 @@
 #include <ws2tcpip.h>
 #include <stdio.h>
 #include <string>
+#include <sstream>
 #include <string.h>
+#include <iostream>
 #include <exception>
+#include "myExceptions.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 #pragma warning(disable : 4996)
@@ -35,12 +38,13 @@ private:
 	bool failed;
 
 	void setFail();
-	void startConn();
-	void stopConn();
 
 public:
 	clientConnection(string ip, int port);
 	~clientConnection();
+
+	void startConn();
+	void stopConn();
 
 	bool getFail();
 
@@ -48,7 +52,7 @@ public:
 	int recvBuffer(char* buffer, int buffSize, int chunkSize = 4*1024);
 	int sendFile(const char* filename, int chunkSize = 64*1024);
 	int recvFile(const char* filename, int chunkSize = 64*1024);
-	int getFileSize(const char* filename);
+	long getFileSize(const char* filename);
 	/*string getFileHash();*/
 };
 

@@ -26,5 +26,8 @@
     <ClInclude Include="clientConnection.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="myExceptions.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

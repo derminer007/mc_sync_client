@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/mc_sync_client/max.txt
+/mc_sync_client/nachricht.txt
+/mc_sync_client/long_max.txt

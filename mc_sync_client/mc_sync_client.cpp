@@ -29,11 +29,30 @@ string ip = "127.0.0.1";
 
 int main() {
 
-    clientConnection c1 = clientConnection(ip, PORT);
+    
     //c1.getFileSize("C:\\Users\\aran\\source\\repos\\mc_sync_client\\mc_sync_client\\clientConnection.cpp");
     //printf("Size: %d\n", c1.getFileSize("C:\\Users\\aran\\source\\repos\\mc_sync_client\\mc_sync_client\\clientConnection.cpp"));
-    printf("Size: %d\n", c1.getFileSize("clientConnection.cpp"));
-    printf("Gefailed: %d\n", c1.getFail());
+    //printf("Size: %d\n", c1.getFileSize("C:\\Users\\aran\\source\\repos\\mc_sync_client\\mc_sync_client\\long_max.txt"));
+    //printf("Gefailed: %d\n", c1.getFail());
+    //printf("Long Max: %ld\n", LONG_MAX);
+
+    try
+    {
+        clientConnection c1 = clientConnection(ip, PORT);
+        //c1.sendFile("nachricht.txt");
+        int l = c1.sendBuffer("FFFFF", 5);
+        printf("END %d\n", l);
+        c1.sendFile("max.txt");
+        c1.stopConn();
+    }
+    catch(networkIOException& e)
+    {
+        cout << "Fehler: " << e.what() << endl;
+    }
+    catch(fileIOException& e)
+    {
+        cout << "Fehler: " << e.what() << endl;
+    }
 
     return 0;
 }
